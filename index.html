@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- <link rel="stylesheet" href="styles.css"> -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <script src="main.js" type="text/javascript"></script>
+   <style>
+      .container {
+         max-width: 600px;
+         margin: 0 auto;
+         padding: 20px;
+         background-color: rgb(159, 221, 183);
+      }
+
+      form {
+         margin-bottom: 5px;
+      }
+
+      label {
+         display: block;
+         margin-bottom: 5px;
+      }
+
+      textarea {
+         width: 100%;
+         background-color: rgb(19, 145, 187);
+      }
+
+      .buttons {
+         /* background-color: rgb(189, 17, 17); */
+         border: none;
+         color: black;
+
+         text-decoration: none;
+         font-weight: bold;
+         height: 20px;
+
+         margin: 4px 2px;
+         cursor: pointer;
+      }
+
+      input[type=text]:focus {
+         background-color: rgb(19, 145, 187);
+      }
+
+      input[type=button]:hover {
+         background-color: #686868;
+      }
+
+      #optionsContainer {
+         margin-top: 20px;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="container" id="mainContainer">
+      <h1>RECORDATORIOS</h1>
+      <form>
+         <label for="select">TIPO RECORDATORIO:</label>
+         <select name="typeevent" id="typeevent">
+            <option value="CITA MEDICO CABECERA">CITA MEDICO CABECERA</option>
+            <option value="CITA ESPECIALISTA">CITA ESPECIALISTA</option>
+            <option value="CITA UNIDAD DOLO">CITA UNIDAD DOLOR</option>
+            <option value="EXTRACCIÓN DE SANGRES">EXTRACCIÓN DE SANGRE</option>
+            <option value="ANALISIS DE">ANALISIS DE</option>
+            <option value="CUMPLEAÑOS DE">CUMPLEAÑOS DE</option>
+            <option value="RECOGER A">RECOGER A</option>
+            <option value="LLEVAR A">LLEVAR A</option>
+            <option value="COMPRAR">COMPRAR</option>
+            <option value="LLAMAR A">LLAMAR A</option>
+         </select>
+         <br><br>
+         <label for="date">FECHA:</label>
+         <input type="date" id="date">
+         <br><br>
+         <label for="time">HORA:</label>
+         <input type="time" id="time">
+         <br><br>
+         <label for="textarea">NOTAS:</label>
+         <textarea id="notes" rows="10"></textarea>
+         <br><br>
+         <div class="buttons">
+            <button id="send" type="button" onclick=sendData()>Guardar</button>
+            <button id="cancelar" type="button" onclick=cancel()>Cancelar</button>
+            <button id="options" type="button" onclick=gotoOptions()>Abrir opciones</button>
+         </div>
+      </form>
+   </div>
+   <div class="container" id="optionsContainer" style="display:none;">
+      <h1>RECORDATORIO</h1>
+      <form>
+
+         <label for="opciones">OPCIONES</label>
+         <div>
+            <input type="checkbox" id="option1" name="options" />
+            <label for="scales">Scales</label>
+         </div>
+         <div>
+            <input type="checkbox" id="option2" name="options" />
+            <label for="scales">Scales</label>
+         </div>
+         <div>
+            <input type="checkbox" id="option3" name="options" />
+            <label for="scales">Scales</label>
+         </div>
+         <div>
+            <input type="checkbox" id="option4" name="options" />
+            <label for="scales">Scales</label>
+         </div>
+         <div>
+            <input type="checkbox" id="option5" name="options" />
+            <label for="scales">Scales</label>
+         </div>
+         <br><br>
+         <div class="buttons">
+            <button id="saveoptions" type="button" onclick=saveOptions()>Guardar</button>
+            <button id="return" type="button" onclick=gotoMain()>Volver</button>
+         </div>
+      </form>
+   </div>
+
+   <!-- Modal -->
+   <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h4 class="modal-title">Advertencia</h4>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+               <p>Debes seleccionar la fecha y hora de manera obligatoria.</p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</body>
+
+</html>
